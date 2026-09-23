@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "batchId": "review-batch-001",
+  "reviewedBy": "user",
+  "reviewedAt": "ISO-8601",
+  "decisions": [
+    {
+      "caseId": "case-001",
+      "action": "keep-human | accept-model | corrected | exclude",
+      "reason": "人工裁决理由",
+      "approvedExpected": null,
+      "exclusionScope": "exclude 时填写统计范围"
+    }
+  ]
+}

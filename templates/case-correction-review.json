@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 2,
+  "triagePath": "failure-triage.json",
+  "triageSha256": "人工审核所依据的 failure_triage.json SHA-256",
+  "approvalStatement": "我已核对原用例、修正提案、差异和影响，同意应用本审核文件中的修正。",
+  "reviews": [
+    {
+      "caseId": "case-001",
+      "casePath": "generated/case-001.json",
+      "proposalPath": "proposed-corrections/case-001.json",
+      "reviewStatus": "approved | modified_and_approved",
+      "reviewedBy": "user",
+      "reviewedAt": "ISO-8601",
+      "originalSha256": "审核时正式用例的 SHA-256",
+      "proposedSha256": "人工确认后提案的 SHA-256",
+      "reason": "为什么需要修正"
+    }
+  ]
+}

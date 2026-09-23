@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "rootCause": "本轮准备验证的根因",
+  "earliestDivergence": {
+    "stage": "最早发生错误的决策阶段",
+    "evidence": "可复核轨迹证据",
+    "downstreamEffects": ["由最早错误传播出的后续错误"]
+  },
+  "ablation": {
+    "factor": "准备单独改变或移除的因素",
+    "constantsHeld": ["保持不变的模型、温度、提示词其余部分和用例"],
+    "baselineResult": "原结果",
+    "counterfactualResult": "单变量变化后的结果"
+  }
+}

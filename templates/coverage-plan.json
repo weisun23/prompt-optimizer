@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "taxonomy": {
+    "path": "case-taxonomy.json",
+    "sha256": "用户确认后计算的64位小写SHA-256"
+  },
+  "coverageItems": [
+    {
+      "id": "契约、状态转换或边界ID",
+      "description": "需要验证的能力或风险",
+      "taxonomyValues": {
+        "任务定义的维度ID": "任务定义的等级ID"
+      },
+      "positiveCaseIds": [],
+      "negativeCaseIds": [],
+      "status": "pending | covered"
+    }
+  ],
+  "resourceBudget": null
+}

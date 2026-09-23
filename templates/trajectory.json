@@ -1,0 +1,12 @@
+{
+  "caseId": "case-001",
+  "messages": [
+    { "role": "user", "content": "请查询请求REQ-2048的当前状态" },
+    { "role": "assistant", "content": "好的，我来查询。", "reasoning": "", "tool_calls": [{ "name": "query_status", "arguments": "{\"request_id\":\"REQ-2048\"}" }] },
+    { "role": "tool", "content": "{\"status\":\"processing\",\"updated_at\":\"2026-09-03T10:00:00+08:00\"}", "name": "query_status" },
+    { "role": "assistant", "content": "请求REQ-2048正在处理中，最近更新时间为2026-09-03 10:00。" }
+  ],
+  "finalOutput": "请求REQ-2048正在处理中，最近更新时间为2026-09-03 10:00。",
+  "endReason": "completed | truncated | stalled | device_error | error",
+  "deviceErrors": []
+}

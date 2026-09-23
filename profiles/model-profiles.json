@@ -1,0 +1,503 @@
+{
+  "schemaVersion": 2,
+  "source": "user-confirmed-2026-09-08",
+  "globalOptimizationWorkflow": {
+    "id": "evidence-driven-single-hypothesis",
+    "required": true,
+    "sequence": ["校正用例", "单根因最小改动", "问题集与相邻正确集重复验证", "全量回归", "排除随机波动"]
+  },
+  "universalOptimizationPrinciples": [
+    {"id": "PRINCIPLE-GLOBAL-REVIEW", "label": "全局审视", "description": "新增需求先检查整体结构、权威规则、优先级、重复与冲突，明确合并位置后再决定局部编辑或整体重写", "defaultSelected": true, "validation": "semantic"},
+    {"id": "PRINCIPLE-ROOT-CAUSE-FIRST", "label": "失败根因优先", "description": "根据失败轨迹修复可复用根因，不只改表面话术", "defaultSelected": true, "validation": "semantic"},
+    {"id": "PRINCIPLE-AVOID-PATCHES", "label": "不乱打补丁", "description": "禁止为单条用例或新增需求堆叠专用规则；优先合并或泛化替换权威规则，确认无法合并时才允许在对应职责章节新增局部规则", "defaultSelected": true, "validation": "semantic"},
+    {"id": "PRINCIPLE-STRUCTURAL-EVIDENCE", "label": "结构证据优先", "description": "优先使用可观察的角色、顺序、状态、事件和字段关系表达判断条件；关键词只有在任务契约明确授权时才能作为决定性证据", "defaultSelected": true, "validation": "semantic"},
+    {"id": "PRINCIPLE-FIELD-PROVENANCE", "label": "字段来源可追溯", "description": "使用字段前核对权威定义、生产者、写入时机和读取或推导链路，不得根据少量样本相关性反推字段语义", "defaultSelected": true, "validation": "semantic"},
+    {"id": "PRINCIPLE-TEMPORAL-ANCHOR", "label": "时间锚点与观察窗口", "description": "涉及时序时先定位首次或决定性事件，再明确事件前后或完整观察窗口；不涉及时序时明确声明不适用", "defaultSelected": true, "validation": "semantic"},
+    {"id": "PRINCIPLE-BOUNDARY-PAIRS", "label": "正反边界成对验证", "description": "每个根因使用表象相似但结论不同的正反边界验证，示例描述可泛化结构而不复制评测原文或偶然值", "defaultSelected": true, "validation": "semantic"},
+    {"id": "PRINCIPLE-CONCISE", "label": "提示词精简", "description": "删除无效重复和冲突表达，在不损失能力的前提下降低提示词复杂度", "defaultSelected": false, "validation": "semantic"},
+    {"id": "PRINCIPLE-PRESERVE-PLACEHOLDERS", "label": "变量占位符不可动", "description": "保持全部既有运行时占位符名称和集合", "defaultSelected": true, "validation": "deterministic"},
+    {"id": "PRINCIPLE-PRESERVE-CAPABILITIES", "label": "不删除既有功能", "description": "未获用户授权时不得删除原提示词已有业务能力和分支", "defaultSelected": true, "validation": "semantic"},
+    {"id": "PRINCIPLE-PRESERVE-FORMAT", "label": "保持原格式", "description": "未获用户授权时保持既有输出协议、固定标识和结构契约", "defaultSelected": true, "validation": "semantic"},
+    {"id": "PRINCIPLE-PRESERVE-TOOL-INTERFACE", "label": "函数名参数名不可动", "description": "未获用户授权时不得修改函数名和参数名", "defaultSelected": true, "validation": "deterministic"}
+  ],
+  "taskTypeDirectives": {
+    "generic": [
+      {"id": "TASK-GENERIC-01", "level": "recommended", "text": "先保留任务事实、输入输出契约和不可变接口，再按目标模型调整表达结构", "validation": "semantic"}
+    ],
+    "tool-agent": [
+      {"id": "TASK-TOOL-01", "level": "recommended", "text": "明确工具用途、调用条件、禁止条件、参数来源、返回语义和失败处理", "validation": "semantic"}
+    ],
+    "slot-filling": [
+      {"id": "TASK-SLOT-01", "level": "recommended", "text": "按字段逐一写明数据来源、类型、枚举、必填性和缺失处理，禁止猜测未提供值", "validation": "semantic"},
+      {"id": "TASK-SLOT-02", "level": "recommended", "text": "输出只包含目标 Schema 允许的字段，并明确 missingRequired 等缺参结果", "validation": "semantic"}
+    ],
+    "json-output": [
+      {"id": "TASK-JSON-01", "level": "recommended", "text": "把 JSON 字段、类型、枚举、必填项和非法输入处理写成单一权威契约", "validation": "semantic"}
+    ],
+    "classification": [
+      {"id": "TASK-CLASSIFICATION-01", "level": "recommended", "text": "按标签给出充分必要条件、互斥边界、冲突优先级和无法判断时的输出", "validation": "semantic"},
+      {"id": "TASK-CLASSIFICATION-PARTITION", "level": "recommended", "text": "先按最稳定且高区分度的证据分区，在分区内限制候选标签，再设置短而明确的局部优先级；强事件例外必须显式写在一般规则之前", "validation": "semantic"},
+      {"id": "TASK-CLASSIFICATION-SOURCE", "level": "recommended", "text": "主体意图只能由该主体的直接表达或任务契约授权的来源证明，不得由其他角色话术、结果字段或样本相关性反推", "validation": "semantic"},
+      {"id": "TASK-CLASSIFICATION-ANCHOR", "level": "recommended", "text": "涉及时序分类时先定位首次决定性事件并定义有效观察窗口，事件后的结果不得反向改变事件发生时的类别边界", "validation": "semantic"}
+    ],
+    "extraction": [
+      {"id": "TASK-EXTRACTION-01", "level": "recommended", "text": "区分原文事实、可无损转换值和不可推断值，逐字段定义缺失与冲突处理", "validation": "semantic"}
+    ],
+    "summarization": [
+      {"id": "TASK-SUMMARY-01", "level": "recommended", "text": "明确保留内容、可压缩内容、禁止新增事实和目标篇幅结构", "validation": "semantic"}
+    ],
+    "rag": [
+      {"id": "TASK-RAG-01", "level": "recommended", "text": "明确来源优先级、引用范围、无证据时的回答边界和冲突资料处理", "validation": "semantic"}
+    ],
+    "generation": [
+      {"id": "TASK-GENERATION-01", "level": "recommended", "text": "明确目标受众、内容目标、风格边界、结构和必须保留的事实", "validation": "semantic"}
+    ],
+    "judge": [
+      {"id": "TASK-JUDGE-01", "level": "recommended", "text": "为评分维度提供锚点、否决条件、事实边界、聚合规则和结构化输出契约", "validation": "semantic"}
+    ],
+    "simulator": [
+      {"id": "TASK-SIMULATOR-01", "level": "recommended", "text": "锁定角色、事实快照、单轮输出、推进边界和终止信号，禁止自行改写事实", "validation": "semantic"}
+    ],
+    "case-generation": [
+      {"id": "TASK-CASEGEN-01", "level": "recommended", "text": "明确覆盖分类、数量、契约一致性、去重和生成失败处理", "validation": "semantic"}
+    ],
+    "chat-general": [
+      {"id": "TASK-CHAT-01", "level": "recommended", "text": "明确对话目标、事实来源、追问条件、回复边界和结束条件", "validation": "semantic"}
+    ],
+    "inject-general": [
+      {"id": "TASK-INJECT-01", "level": "recommended", "text": "明确输入字段、处理规则、输出格式和异常输入结果", "validation": "semantic"}
+    ]
+  },
+  "profiles": [
+    {
+      "id": "generic",
+      "label": "通用模型",
+      "source": "prompt-optimizer-v1.4",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["*"],
+      "match": {},
+      "recommendationStrength": "normal",
+      "commonOptimizationDirectives": [],
+      "optimizationDirectives": [],
+      "runtimeRequirements": [
+        {
+          "id": "GENERIC-RUNTIME-01",
+          "layer": "api",
+          "text": "运行前确认目标接口实际支持当前工具协议和思考控制参数"
+        }
+      ],
+      "avoid": []
+    },
+    {
+      "id": "qwen-nonthinking",
+      "label": "Qwen 非思考",
+      "source": "user-confirmed-2026-09-08",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["tool-agent"],
+      "match": {
+        "providers": ["qwen", "dashscope", "alibaba"],
+        "modelFamilies": ["qwen", "qwen3"],
+        "modelPatterns": ["qwen"],
+        "reasoning": false
+      },
+      "recommendationStrength": "strong",
+      "commonOptimizationDirectives": [
+        {"id": "QWEN-COMMON-01", "level": "recommended", "text": "把规则写成就近的可观察条件到当前动作映射，减少跨章节抽象推导", "validation": "semantic"},
+        {"id": "QWEN-COMMON-02", "level": "recommended", "text": "使用短规则、单一权威定义和明确停止条件，避免长优先级链", "validation": "semantic"}
+      ],
+      "optimizationDirectives": [
+        {
+          "id": "QWEN-NONTHINK-01",
+          "level": "recommended",
+          "text": "使用就近的可观察条件到动作的直接映射，减少抽象状态推理",
+          "validation": "semantic"
+        },
+        {
+          "id": "QWEN-NONTHINK-02",
+          "level": "recommended",
+          "text": "关键规则采用条件、当前唯一动作、禁止项的短结构",
+          "validation": "semantic"
+        },
+        {
+          "id": "QWEN-NONTHINK-03",
+          "level": "recommended",
+          "text": "一个执行状态最多对应一个主要动作或写操作函数",
+          "validation": "semantic"
+        },
+        {
+          "id": "QWEN-NONTHINK-04",
+          "level": "recommended",
+          "text": "不得以自然语言承诺代替真实函数调用，调用后停止并等待工具结果",
+          "validation": "semantic"
+        }
+      ],
+      "runtimeRequirements": [
+        {
+          "id": "QWEN-RUNTIME-01",
+          "layer": "api",
+          "targetRoles": ["*"],
+          "taskTypes": ["*"],
+          "text": "按部署方式显式关闭思考，并确认工具调用解析器与聊天模板匹配"
+        },
+        {
+          "id": "QWEN-RUNTIME-02",
+          "layer": "tool",
+          "targetRoles": ["candidate"],
+          "taskTypes": ["tool-agent"],
+          "text": "确定执行节点优先只暴露或指定一个目标函数"
+        }
+      ],
+      "avoid": ["跨章节状态推导", "长优先级链"]
+    },
+    {
+      "id": "deepseek-nonthinking",
+      "label": "DeepSeek 非思考",
+      "source": "user-confirmed-2026-09-08",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["tool-agent"],
+      "match": {
+        "providers": ["deepseek"],
+        "modelFamilies": ["deepseek", "deepseek-v3", "deepseek-v4"],
+        "modelPatterns": ["deepseek"],
+        "reasoning": false
+      },
+      "recommendationStrength": "strong",
+      "commonOptimizationDirectives": [
+        {"id": "DEEPSEEK-NONTHINK-COMMON-01", "level": "recommended", "text": "结构化任务优先使用 Schema 和短触发规则，减少长篇重复约束", "validation": "semantic"}
+      ],
+      "optimizationDirectives": [
+        {
+          "id": "DEEPSEEK-NONTHINK-01",
+          "level": "recommended",
+          "text": "以函数 Schema 为主，提示词只保留短触发条件和必要边界",
+          "validation": "semantic"
+        },
+        {
+          "id": "DEEPSEEK-NONTHINK-02",
+          "level": "recommended",
+          "text": "参数类型、枚举和必填项由 Schema 表达，不用长篇自然语言重复",
+          "validation": "semantic"
+        }
+      ],
+      "runtimeRequirements": [
+        {
+          "id": "DEEPSEEK-NONTHINK-RUNTIME-01",
+          "layer": "tool",
+          "targetRoles": ["candidate"],
+          "taskTypes": ["tool-agent"],
+          "text": "确定节点使用 required 或指定函数的 tool_choice，并校验参数"
+        }
+      ],
+      "avoid": ["用长篇自然语言代替参数约束"]
+    },
+    {
+      "id": "deepseek-thinking",
+      "label": "DeepSeek 思考",
+      "source": "user-confirmed-2026-09-08",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["tool-agent"],
+      "match": {
+        "providers": ["deepseek"],
+        "modelFamilies": ["deepseek", "deepseek-v3", "deepseek-v4"],
+        "modelPatterns": ["deepseek"],
+        "reasoning": true
+      },
+      "recommendationStrength": "strong",
+      "commonOptimizationDirectives": [
+        {"id": "DEEPSEEK-THINK-COMMON-01", "level": "recommended", "text": "使用目标、可信事实、约束、执行、观察和继续条件组成闭环", "validation": "semantic"}
+      ],
+      "optimizationDirectives": [
+        {
+          "id": "DEEPSEEK-THINK-01",
+          "level": "recommended",
+          "text": "使用目标、事实、约束、调用、观察、继续的闭环结构",
+          "validation": "semantic"
+        },
+        {
+          "id": "DEEPSEEK-THINK-02",
+          "level": "recommended",
+          "text": "工具结果作为下一步状态事实，明确终止和继续条件",
+          "validation": "semantic"
+        }
+      ],
+      "runtimeRequirements": [
+        {
+          "id": "DEEPSEEK-THINK-RUNTIME-01",
+          "layer": "context",
+          "targetRoles": ["*"],
+          "taskTypes": ["*"],
+          "text": "后续请求完整保留并回传模型返回的 reasoning_content"
+        }
+      ],
+      "avoid": ["丢弃历史 reasoning_content"]
+    },
+    {
+      "id": "glm-thinking",
+      "label": "GLM 思考模式",
+      "source": "user-confirmed-2026-09-08",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["tool-agent"],
+      "match": {
+        "providers": ["glm", "zhipu", "bigmodel"],
+        "modelFamilies": ["glm"],
+        "modelPatterns": ["glm"],
+        "reasoning": true
+      },
+      "recommendationStrength": "strong",
+      "commonOptimizationDirectives": [
+        {"id": "GLM-THINK-COMMON-01", "level": "recommended", "text": "显式描述目标、状态转换、观察结果和终止条件，保留连续因果关系", "validation": "semantic"}
+      ],
+      "optimizationDirectives": [
+        {
+          "id": "GLM-THINK-01",
+          "level": "recommended",
+          "text": "显式描述目标、状态转换、观察结果和终止条件",
+          "validation": "semantic"
+        },
+        {
+          "id": "GLM-THINK-02",
+          "level": "recommended",
+          "text": "用状态推进连接工具动作，避免把每个动作写成互不关联的固定话术",
+          "validation": "semantic"
+        }
+      ],
+      "runtimeRequirements": [
+        {
+          "id": "GLM-THINK-RUNTIME-01",
+          "layer": "context",
+          "targetRoles": ["*"],
+          "taskTypes": ["*"],
+          "text": "工具结果和当前状态必须进入下一轮上下文"
+        }
+      ],
+      "avoid": ["把每个动作都写成孤立固定话术"]
+    },
+    {
+      "id": "kimi-k3",
+      "label": "Kimi K3",
+      "source": "user-confirmed-2026-09-08",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["tool-agent"],
+      "match": {
+        "providers": ["kimi", "moonshot"],
+        "modelFamilies": ["kimi-k3", "k3"],
+        "modelPatterns": ["kimi-k3", "k3"]
+      },
+      "recommendationStrength": "strong",
+      "commonOptimizationDirectives": [
+        {"id": "KIMI-K3-COMMON-01", "level": "recommended", "text": "保持稳定的长任务目标，同时只突出少量当前活跃目标和明确完成条件", "validation": "semantic"}
+      ],
+      "optimizationDirectives": [
+        {
+          "id": "KIMI-K3-01",
+          "level": "recommended",
+          "text": "提供稳定的长任务目标，同时只保持少量当前活跃目标",
+          "validation": "semantic"
+        },
+        {
+          "id": "KIMI-K3-02",
+          "level": "recommended",
+          "text": "允许依据完整历史持续进行工具调用循环，明确完成条件",
+          "validation": "semantic"
+        }
+      ],
+      "runtimeRequirements": [
+        {
+          "id": "KIMI-K3-RUNTIME-01",
+          "layer": "context",
+          "targetRoles": ["*"],
+          "taskTypes": ["*"],
+          "text": "不得每轮重置任务状态或删除仍需续接的推理与工具历史"
+        }
+      ],
+      "avoid": ["每轮重置状态", "删除仍需续接的推理历史"]
+    },
+    {
+      "id": "kimi-instant",
+      "label": "Kimi Instant",
+      "source": "user-confirmed-2026-09-08",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["tool-agent"],
+      "match": {
+        "providers": ["kimi", "moonshot"],
+        "modelFamilies": ["kimi-instant", "instant"],
+        "modelPatterns": ["kimi-instant", "instant"]
+      },
+      "recommendationStrength": "strong",
+      "commonOptimizationDirectives": [
+        {"id": "KIMI-INSTANT-COMMON-01", "level": "recommended", "text": "使用直接条件到动作规则，把复杂隐式规划拆成短步骤", "validation": "semantic"}
+      ],
+      "optimizationDirectives": [
+        {
+          "id": "KIMI-INSTANT-01",
+          "level": "recommended",
+          "text": "使用直接的条件到动作规则，减少隐式规划复杂链路",
+          "validation": "semantic"
+        },
+        {
+          "id": "KIMI-INSTANT-02",
+          "level": "recommended",
+          "text": "关键执行节点写明唯一动作、函数和停止条件",
+          "validation": "semantic"
+        }
+      ],
+      "runtimeRequirements": [
+        {
+          "id": "KIMI-INSTANT-RUNTIME-01",
+          "layer": "tool",
+          "targetRoles": ["candidate"],
+          "taskTypes": ["tool-agent"],
+          "text": "复杂链路由状态机拆分后再交给模型执行"
+        }
+      ],
+      "avoid": ["要求模型隐式规划复杂链路"]
+    },
+    {
+      "id": "minimax-m",
+      "label": "MiniMax M 系列",
+      "source": "user-confirmed-2026-09-08",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["tool-agent"],
+      "match": {
+        "providers": ["minimax"],
+        "modelFamilies": ["minimax-m", "m-series"],
+        "modelPatterns": ["minimax-m", "minimax m"]
+      },
+      "recommendationStrength": "strong",
+      "commonOptimizationDirectives": [
+        {"id": "MINIMAX-M-COMMON-01", "level": "recommended", "text": "把使用条件、禁用条件、输入、输出和失败处理分别写清，避免需要时处理等模糊描述", "validation": "semantic"}
+      ],
+      "optimizationDirectives": [
+        {
+          "id": "MINIMAX-M-01",
+          "level": "recommended",
+          "text": "为每个工具完整描述用途、禁用条件、返回语义和失败处理",
+          "validation": "semantic"
+        },
+        {
+          "id": "MINIMAX-M-02",
+          "level": "recommended",
+          "text": "使用明确触发条件替代需要时调用等模糊描述",
+          "validation": "semantic"
+        }
+      ],
+      "runtimeRequirements": [
+        {
+          "id": "MINIMAX-M-RUNTIME-01",
+          "layer": "tool",
+          "targetRoles": ["candidate"],
+          "taskTypes": ["tool-agent"],
+          "text": "工具 Schema 与描述同时提供且保持一致"
+        }
+      ],
+      "avoid": ["需要时调用等模糊描述"]
+    },
+    {
+      "id": "minimax-m3-adaptive",
+      "label": "MiniMax M3 Adaptive",
+      "source": "user-confirmed-2026-09-08",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["tool-agent"],
+      "match": {
+        "providers": ["minimax"],
+        "modelFamilies": ["minimax-m3-adaptive", "m3-adaptive"],
+        "modelPatterns": ["m3-adaptive", "m3 adaptive"]
+      },
+      "recommendationStrength": "strong",
+      "commonOptimizationDirectives": [
+        {"id": "MINIMAX-M3-COMMON-01", "level": "recommended", "text": "采用不可违反的硬规则与可自主规划的高层目标双层结构", "validation": "semantic"}
+      ],
+      "optimizationDirectives": [
+        {
+          "id": "MINIMAX-M3-01",
+          "level": "recommended",
+          "text": "采用不可违反的硬规则与可自主规划的高层目标双层结构",
+          "validation": "semantic"
+        },
+        {
+          "id": "MINIMAX-M3-02",
+          "level": "recommended",
+          "text": "仅在任务复杂度需要时启用深度思考，不对所有场景一刀切",
+          "validation": "semantic"
+        }
+      ],
+      "runtimeRequirements": [
+        {
+          "id": "MINIMAX-M3-RUNTIME-01",
+          "layer": "api",
+          "targetRoles": ["*"],
+          "taskTypes": ["*"],
+          "text": "思考策略必须按任务和接口能力显式配置"
+        }
+      ],
+      "avoid": ["所有场景都强制思考", "所有场景都禁止思考"]
+    },
+    {
+      "id": "doubao-function-call",
+      "label": "豆包 Function Call",
+      "source": "user-confirmed-2026-09-08",
+      "consumer": "host-agent",
+      "targetRoles": ["*"],
+      "taskTypes": ["tool-agent"],
+      "match": {
+        "providers": ["doubao", "volcengine", "bytedance"],
+        "modelFamilies": ["doubao-function-call", "doubao"],
+        "modelPatterns": ["doubao"]
+      },
+      "recommendationStrength": "strong",
+      "commonOptimizationDirectives": [
+        {"id": "DOUBAO-COMMON-01", "level": "recommended", "text": "使用清晰的输入意图到输出动作映射，减少同一位置的互斥分支", "validation": "semantic"},
+        {"id": "DOUBAO-COMMON-02", "level": "recommended", "text": "结构化输出优先使用强 Schema、明确必填项和确定失败结果", "validation": "semantic"}
+      ],
+      "optimizationDirectives": [
+        {
+          "id": "DOUBAO-FC-01",
+          "level": "recommended",
+          "text": "建立清晰的意图到函数映射，并减少同一节点可选工具数量",
+          "validation": "semantic"
+        },
+        {
+          "id": "DOUBAO-FC-02",
+          "level": "recommended",
+          "text": "确定执行节点明确要求真实调用，不用自然语言承诺替代",
+          "validation": "semantic"
+        }
+      ],
+      "taskOptimizationDirectives": {
+        "slot-filling": [
+          {"id": "DOUBAO-SLOT-01", "level": "recommended", "text": "将每个槽位写成意图来源、字段映射、类型枚举、缺失处理和最终 JSON 的直接规则", "validation": "semantic"},
+          {"id": "DOUBAO-SLOT-02", "level": "recommended", "text": "禁止根据常识补齐未提供槽位，缺少必填值时输出明确缺参结果", "validation": "semantic"}
+        ],
+        "json-output": [
+          {"id": "DOUBAO-JSON-01", "level": "recommended", "text": "用单一 JSON Schema 约束字段、类型和枚举，正文不得混入结构化结果", "validation": "semantic"}
+        ]
+      },
+      "runtimeRequirements": [
+        {
+          "id": "DOUBAO-FC-RUNTIME-01",
+          "layer": "tool",
+          "targetRoles": ["candidate"],
+          "taskTypes": ["tool-agent"],
+          "text": "使用强 Schema，并在确定节点强制指定目标函数"
+        },
+        {
+          "id": "DOUBAO-FC-RUNTIME-02",
+          "layer": "guard",
+          "targetRoles": ["candidate"],
+          "taskTypes": ["tool-agent"],
+          "text": "语音输入未结束或关键信息未确认时禁止提交写操作"
+        }
+      ],
+      "avoid": ["在语音未结束时提前提交写操作"]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "稳定能力ID",
+      "description": "原提示词中的业务能力、异常处理或安全规则",
+      "required": true,
+      "status": "preserved | modified-authorized | deferred-experimental | removed-authorized",
+      "candidateMarkers": ["候选提示词中的可定位证据"],
+      "authorization": "只有修改或删除时填写用户授权"
+    }
+  ]
+}

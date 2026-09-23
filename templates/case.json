@@ -1,0 +1,52 @@
+{
+  "id": "case-001",
+  "type": "chat",
+  "scenario": "场景描述（供模拟用户理解背景与目标；注入型任务则描述本用例的输入材料背景）",
+  "caseRole": "positive | negative | boundary | problem | protected",
+  "taxonomyValues": {
+    "任务定义的维度ID": "任务定义的等级ID"
+  },
+  "chat": {
+    "messages": [
+      { "role": "user", "content": "你好，我要处理{request_type}，时间是{requested_time}" }
+    ],
+    "simulate": true,
+    "simulateMode": "guided | free | scripted | off",
+    "scriptedExact": false,
+    "flowGuide": ["用户先说明目标", "被问必要信息时如实回答", "确认处理结果后自然结束"],
+    "variables": { "request_type": ["新建", "修改"], "requested_time": ["今天18:00", "明天09:30"] }
+  },
+  "inject": {
+    "userTemplate": "请从输入材料提取状态。{source_text}\n{context_data}",
+    "inputs": {
+      "source_text": "【输入材料】…",
+      "context_data": "【上下文数据】…"
+    }
+  },
+  "expectedOutput": {
+    "turns": [{ "turn": 1, "labels": ["目标标签"] }],
+    "endLabel": "任务完成"
+  },
+  "expectedOutputSource": "任务配置 evaluationSourcePrecedence 中的权威来源；未配置时可省略",
+  "expectedOutputSourceEvidence": "为什么该来源决定本用例期望值",
+  "modelVisibleEvidence": [
+    {
+      "fact": "期望行为依赖的事实",
+      "source": "system | user-message | variable | tool-result",
+      "value": "必须真实出现在对应模型输入中的值"
+    }
+  ],
+  "expectedCallPolicy": {
+    "mode": "immediate | after-confirmation | eventual",
+    "allowedClarifications": 0,
+    "maxAdditionalTurns": 0,
+    "mustCallAfterState": "调用条件成立的可观察状态"
+  },
+  "toolsExpect": ["example_tool", "example_tool"],
+  "expectedToolArgs": {
+    "example_tool": [{ "schema_arg": "第一次调用值" }, { "schema_arg": "第二次调用值" }]
+  },
+  "toolMock": {
+    "example_tool": [{ "success": true, "result": "第一次结果" }, { "success": false, "error": "第二次失败" }]
+  }
+}

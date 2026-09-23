@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 3,
+  "workflowId": "evidence-driven-single-hypothesis",
+  "rootCauseHypothesis": "本轮唯一根因假设",
+  "changeMode": "local",
+  "architectureTrack": "production-candidate",
+  "changeScope": ["允许修改的章节或规则"],
+  "requirementIntegration": {
+    "newRequirement": "本轮新增需求或失败根因需要实现的行为",
+    "searchedLocations": ["已检查的相关章节、权威规则和工具说明"],
+    "existingRuleLocations": ["可以承载或需要重构的现有规则位置"],
+    "sharedDecisionAxis": "新需求与现有规则共享的触发条件、状态、角色或决策维度",
+    "strategy": "merge-existing | generalize-replace | new-local-rule | structural-refactor",
+    "targetLocations": ["最终准备修改的位置，必须属于 changeScope"],
+    "rulesReplacedOrRemoved": [],
+    "newRuleJustification": "仅 new-local-rule 时说明为什么现有权威规则无法承载",
+    "expectedStructureEffect": "合并、泛化替换、局部新增或结构重构后对提示词结构的净影响"
+  },
+  "problemCaseIds": ["当前根因对应的失败用例"],
+  "neighborPassCaseIds": ["容易被本次改动误伤的相邻正确用例"],
+  "boundaryPairs": [
+    {
+      "problemCaseId": "一个代表性问题用例",
+      "neighborPassCaseIds": ["表象相似但结论不同的正确用例"],
+      "structuralDifference": "决定二者结论不同的可观察结构、状态、角色、顺序或事实"
+    }
+  ],
+  "repeatRuns": 3,
+  "repeatRunsJustification": "",
+  "unstableRepeatRuns": 5,
+  "acceptancePolicy": {
+    "schemaVersion": 1,
+    "mode": "deterministic | stochastic",
+    "source": "用户确认或正式任务契约路径",
+    "successCriteria": "本任务实际成功标准，不使用全局固定百分比",
+    "criticalCaseIds": [],
+    "protectedCaseIds": []
+  }
+}

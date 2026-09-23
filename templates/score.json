@@ -1,0 +1,18 @@
+{
+  "caseId": "case-001",
+  "scoreMode": "rubric | expected | expected-semantic | tool-binary",
+  "comparisonMethod": "deterministic | judge",
+  "judgeCalled": false,
+  "judgeTimes": 0,
+  "dimScores": {
+    "result": 85,
+    "process": 60,
+    "reply": 90
+  },
+  "totalScore": 78,
+  "score": "0 | 100（仅 tool-binary 兼容字段）",
+  "verdict": "PASS | FAIL | INVALID",
+  "failLabel": "flow_break | ... | device_error",
+  "deviceError": false,
+  "judgeId": "judge-1"
+}

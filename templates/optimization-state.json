@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 2,
+  "status": "IN_PROGRESS | CANDIDATE_REJECTED_CONTINUE | ACCEPTED | USER_STOPPED | BUDGET_EXHAUSTED | BLOCKED",
+  "currentBestPrompt": "prompt_v1.md",
+  "currentCandidate": "",
+  "activeAttemptId": "",
+  "lastCompletedAttemptId": "",
+  "actionableRootCauses": [],
+  "untestedHypotheses": [],
+  "newEvidenceAvailable": false,
+  "verifiedConclusions": [],
+  "rejectedDirections": [],
+  "nextAction": "下一项可执行动作",
+  "lastIterationSummary": "最近一次候选或里程碑的简要结论",
+  "updatedAt": "ISO-8601"
+}

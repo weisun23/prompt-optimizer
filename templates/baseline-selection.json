@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "selectedId": "同口径证据最优的基线ID",
+  "selectionReason": "为什么选择该版本，而不是按文件时间或最大编号猜测",
+  "candidates": [
+    {
+      "id": "candidate-id",
+      "promptSha256": "64位sha256",
+      "modelConfigSha256": "64位sha256",
+      "caseSetSha256": "64位sha256",
+      "productionMode": "与实际生产一致的思考、温度和API模式"
+    }
+  ]
+}

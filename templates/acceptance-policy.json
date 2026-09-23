@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "mode": "deterministic | stochastic",
+  "source": "用户确认记录或正式任务契约",
+  "successCriteria": "本任务实际成功标准，不使用通用80%或60分",
+  "criticalCaseIds": [],
+  "protectedCaseIds": []
+}

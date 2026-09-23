@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "source": "用户确认记录或正式任务契约",
+  "dimensions": [
+    {
+      "id": "任务定义的维度ID",
+      "name": "任务定义的中文名称",
+      "purpose": "该维度影响的覆盖、专项选集、根因分析、接受决策或报告解释",
+      "required": true,
+      "values": [
+        {
+          "id": "任务定义的等级ID",
+          "name": "任务定义的中文名称",
+          "assignmentRule": "可观察、可复核的归类条件"
+        }
+      ]
+    }
+  ],
+  "stabilityPolicy": {
+    "source": "用户确认的重复运行口径",
+    "labels": [
+      {
+        "id": "任务定义的稳定性标签ID",
+        "name": "任务定义的中文名称",
+        "assignmentRule": "根据validRuns、failureRuns、passRuns和invalidRuns解释，不使用Skill固定比例"
+      }
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "models": {
+    "generate": {
+      "base_url": "https://YOUR_OPENAI_COMPATIBLE_HOST/v1",
+      "api_key_env": "LLM_API_KEY",
+      "model": "YOUR_GENERATE_MODEL",
+      "provider": "generic",
+      "modelFamily": "generic",
+      "apiStyle": "openai-chat",
+      "promptProfile": "generic",
+      "temperature": 0.7,
+      "reasoning": true
+    },
+    "simulator": {
+      "base_url": "https://YOUR_OPENAI_COMPATIBLE_HOST/v1",
+      "api_key_env": "LLM_API_KEY",
+      "model": "YOUR_SIMULATOR_MODEL",
+      "provider": "generic",
+      "modelFamily": "generic",
+      "apiStyle": "openai-chat",
+      "promptProfile": "generic",
+      "temperature": 0.7,
+      "reasoning": false
+    },
+    "candidate": {
+      "base_url": "https://YOUR_OPENAI_COMPATIBLE_HOST/v1",
+      "api_key_env": "LLM_API_KEY",
+      "model": "YOUR_CANDIDATE_MODEL",
+      "provider": "generic",
+      "modelFamily": "generic",
+      "apiStyle": "openai-chat",
+      "promptProfile": "auto",
+      "toolChoicePolicy": "auto",
+      "capabilities": {
+        "nativeTools": true,
+        "namedToolChoice": true,
+        "strictSchema": false,
+        "reasoningReplay": false
+      },
+      "temperature": 0.3,
+      "reasoning": false
+    },
+    "slotfiller": {
+      "base_url": "https://YOUR_OPENAI_COMPATIBLE_HOST/v1",
+      "api_key_env": "LLM_API_KEY",
+      "model": "YOUR_SLOTFILLER_MODEL",
+      "provider": "generic",
+      "modelFamily": "generic",
+      "apiStyle": "openai-chat",
+      "promptProfile": "generic",
+      "temperature": 0.0,
+      "reasoning": false
+    },
+    "judge": {
+      "base_url": "https://YOUR_OPENAI_COMPATIBLE_HOST/v1",
+      "api_key_env": "LLM_API_KEY",
+      "model": "YOUR_JUDGE_MODEL",
+      "provider": "generic",
+      "modelFamily": "generic",
+      "apiStyle": "openai-chat",
+      "promptProfile": "generic",
+      "temperature": 0.0,
+      "reasoning": false
+    }
+  },
+  "concurrency": 5,
+  "budget": {
+    "judgeTimesPerCase": 2,
+    "scoreConcurrency": 20,
+    "genConcurrency": 20,
+    "genBatchSize": 8
+  },
+  "mode": "interactive",
+  "language": "zh"
+}
