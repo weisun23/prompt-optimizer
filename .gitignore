@@ -1,0 +1,28 @@
+# Python 缓存与本地环境
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# 密钥、真实模型配置及本地运行数据
+.env
+.env.*
+!.env.example
+/config.json
+*.key
+*.pem
+*.p12
+*.pfx
+*.db
+*.log
+.skill-source.json
+tasks/
+reports/
+runs/
+cases/
+scores/
+trajectories-*/
+/run_manifest.json
+/rounds.json
+/optimization-state.json
+/OPTIMIZATION_SUMMARY.md
