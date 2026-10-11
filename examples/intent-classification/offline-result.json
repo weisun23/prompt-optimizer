@@ -1,0 +1,20 @@
+{
+  "count": 4,
+  "scoredCount": 3,
+  "invalidCount": 1,
+  "evalMode": "expected",
+  "avgTotal": 66.7,
+  "passRate": 66.7,
+  "dimAvg": {
+    "result": 66.7
+  },
+  "failLabels": {
+    "result_mismatch": 1
+  },
+  "disagreements": 0,
+  "parseErrors": 0,
+  "failedJudgeRuns": 0,
+  "judgeCalls": 0,
+  "comparisonMethod": "deterministic",
+  "dimNote": "expected 为程序确定性 0/100 对照，Judge 调用 0 次；维度分仅写入 result，非多维评估"
+}

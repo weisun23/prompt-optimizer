@@ -1,0 +1,10 @@
+{
+  "caseId": "consultation",
+  "output": "consultation",
+  "endReason": "completed",
+  "messages": [
+    {"role": "system", "content": "人工预制评分轨迹，不来自真实模型运行。"},
+    {"role": "user", "content": "你们今天几点关门？"},
+    {"role": "assistant", "content": "consultation"}
+  ]
+}

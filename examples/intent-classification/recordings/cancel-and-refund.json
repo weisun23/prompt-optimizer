@@ -1,0 +1,10 @@
+{
+  "caseId": "cancel-and-refund",
+  "output": "cancel",
+  "endReason": "completed",
+  "messages": [
+    {"role": "system", "content": "人工预制评分轨迹，不来自真实模型运行。"},
+    {"role": "user", "content": "帮我取消订单，并把已经支付的钱退给我。"},
+    {"role": "assistant", "content": "cancel"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "caseId": "refund",
+  "output": "refund",
+  "endReason": "completed",
+  "messages": [
+    {"role": "system", "content": "人工预制评分轨迹，不来自真实模型运行。"},
+    {"role": "user", "content": "已经付款了，我想申请退款。"},
+    {"role": "assistant", "content": "refund"}
+  ]
+}

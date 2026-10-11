@@ -1,0 +1,9 @@
+{
+  "caseId": "other",
+  "error": "synthetic execution timeout",
+  "endReason": "error",
+  "messages": [
+    {"role": "system", "content": "人工预制评分轨迹，不来自真实模型运行。"},
+    {"role": "user", "content": "谢谢，祝你今天开心。"}
+  ]
+}

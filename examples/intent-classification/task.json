@@ -1,0 +1,8 @@
+{
+  "name": "公开意图分类评分示例",
+  "description": "仅评分人工预制输出，演示正确、错误和装置异常的区分，不调用模型。",
+  "taskType": "inject",
+  "promptTaskType": "classification",
+  "evalMode": "expected",
+  "dimensions": [{"name": "result", "weight": 1}]
+}

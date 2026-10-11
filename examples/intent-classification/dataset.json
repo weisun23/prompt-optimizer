@@ -1,0 +1,34 @@
+[
+  {
+    "id": "consultation",
+    "type": "inject",
+    "category": "单一意图",
+    "description": "咨询营业时间",
+    "inject": {"userTemplate": "{text}", "inputs": {"text": "你们今天几点关门？"}},
+    "expectedOutput": "consultation"
+  },
+  {
+    "id": "refund",
+    "type": "inject",
+    "category": "明确退款",
+    "description": "仅有退款诉求",
+    "inject": {"userTemplate": "{text}", "inputs": {"text": "已经付款了，我想申请退款。"}},
+    "expectedOutput": "refund"
+  },
+  {
+    "id": "cancel-and-refund",
+    "type": "inject",
+    "category": "重叠意图边界",
+    "description": "同时取消和退款时，以明确退款诉求作为标签",
+    "inject": {"userTemplate": "{text}", "inputs": {"text": "帮我取消订单，并把已经支付的钱退给我。"}},
+    "expectedOutput": "refund"
+  },
+  {
+    "id": "other",
+    "type": "inject",
+    "category": "装置异常示例",
+    "description": "期望 other，但预制轨迹模拟执行超时，不能计为模型分类失败",
+    "inject": {"userTemplate": "{text}", "inputs": {"text": "谢谢，祝你今天开心。"}},
+    "expectedOutput": "other"
+  }
+]
