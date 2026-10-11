@@ -1,10 +1,31 @@
-# prompt-optimizer
+# Prompt Optimizer — 提示词评测与持续优化 Skill
+
+面向 **Claude Code 与 Codex** 的 evaluation-driven prompt optimization：测试用例、失败归因、工具调用验证与回归测试。
+
+[English](README.en.md) · [离线评分示例](examples/intent-classification/README.md) · [安装与首次运行](#快速开始)
+
+开源许可证：[MIT](LICENSE)，允许商用、修改和分发，须保留版权与许可声明。
 
 面向 Claude Code 与 Codex 的通用提示词评测与持续优化 Skill。
 
 它不是只把提示词“润色一遍”，而是把提示词当作可测试、可回归、可审计的程序：先建立可信基线，再通过覆盖用例、失败归因、单根因修改和同口径回归，持续寻找可验证的改进。
 
 当前版本：`1.4.11`
+
+## 先体验，再接入模型
+
+想了解提示词评测如何识别正确输出、模型错误和装置异常，可以先运行这个公开示例。它只使用 Python 标准库，**不需要 API Key，也不调用模型**。
+
+```bash
+git clone https://github.com/weisun23/prompt-optimizer.git
+cd prompt-optimizer
+python -c "import shutil; shutil.copytree('examples/intent-classification/recordings', '.demo-output/recordings', dirs_exist_ok=True)"
+cd .demo-output
+python ../bin/scorer.py --config ../examples/intent-classification/config.offline.json --task ../examples/intent-classification/task.json --cases ../examples/intent-classification/dataset.json --trajectories recordings --out scores/offline --manifest run_manifest.json
+cd ..
+```
+
+示例提供人工编写的 4 条输入与预制输出轨迹，演示评分器的 PASS / FAIL / INVALID 区分。它不是模型优化跑分，不代表真实模型准确率。原始提示词、待验证候选和逐例说明见[示例教程](examples/intent-classification/README.md)。
 
 ## 它解决什么问题
 
@@ -131,6 +152,27 @@
 
 ### 1. 准备环境
 
+先安装 Skill。已安装 Node.js 的用户可以使用 Skills CLI：
+
+```bash
+npx skills add weisun23/prompt-optimizer --skill prompt-optimizer
+```
+
+只安装到 Claude Code 或 Codex：
+
+```bash
+npx skills add weisun23/prompt-optimizer --skill prompt-optimizer --agent claude-code
+npx skills add weisun23/prompt-optimizer --skill prompt-optimizer --agent codex
+```
+
+默认安装到当前项目；加 `--global` 安装到用户目录。先查看可发现的 Skill：
+
+```bash
+npx skills add weisun23/prompt-optimizer --list
+```
+
+不使用 Node.js 时，将**完整仓库**复制到宿主支持的 Skill 目录，例如 Claude Code 的 `~/.claude/skills/prompt-optimizer/` 或共享目录 `~/.agents/skills/prompt-optimizer/`。本 Skill 包含脚本、模板和参考文档，不能只复制 `SKILL.md`。安装后重新启动宿主或新建会话，并确认其可识别 `prompt-optimizer`。
+
 需要：
 
 - Claude Code 或 Codex。
@@ -138,6 +180,8 @@
 - 实际执行阶段所需的 OpenAI 兼容模型 API。
 
 复制 `config.example.json` 为项目配置，并按实际环境填写模型、地址、密钥环境变量、厂商、模型族和能力。示例中的 `YOUR_*` 不能直接运行。
+
+首次接入可选用[示例数据集](examples/intent-classification/dataset.json)与[原始提示词](examples/intent-classification/prompt_v1.md)，在独立工作区执行。只配置本轮实际启用的模型角色；固定分类结果使用 `expected` 评分，不需要 Judge。API Key 通过 `api_key_env` 对应的环境变量提供，不写入待提交的配置文件。
 
 ### 2. 发起新任务
 
@@ -222,7 +266,9 @@ workspace/
 
 ## 安装与管理
 
-当前使用 CC Switch 作为唯一主存储：
+CC Switch 是可选的共享管理方式，不是运行依赖。已经由 Skills CLI 或手动安装的用户不需要使用它。
+
+使用 CC Switch 时，可以将它设为唯一主存储：
 
 ```text
 ~/.cc-switch/skills/prompt-optimizer/
@@ -235,7 +281,7 @@ Claude Code 与 Codex 使用指向该目录的链接：
 ~/.codex/skills/prompt-optimizer/   # Codex
 ```
 
-不要维护多份实体副本，也不要直接编辑链接目录。更新主版本后由 CC Switch 统一分发。
+选择一种主存储方式，避免让不同安装工具覆盖同一个 Skill。使用 CC Switch 管理时，更新主版本后由它统一分发；已有用户的存储和软链接不由本仓库自动迁移。
 
 ## 项目运行副本
 

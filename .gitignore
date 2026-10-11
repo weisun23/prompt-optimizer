@@ -26,3 +26,6 @@ trajectories-*/
 /rounds.json
 /optimization-state.json
 /OPTIMIZATION_SUMMARY.md
+
+# 公开离线示例的本地评分和报告产物
+/.demo-output/
