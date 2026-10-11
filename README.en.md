@@ -2,7 +2,7 @@
 
 A **Claude Code and Codex Agent Skill** for improving intent classification, slot extraction, structured output, and tool-calling correctness through evaluation, failure analysis, and regression-tested prompt optimization.
 
-[中文](README.md) · [Offline example](examples/intent-classification/README.en.md) · [Agent instructions](SKILL.md)
+[中文](README.md) · [Skills.sh listing](https://skills.sh/weisun23/prompt-optimizer/prompt-optimizer) · [Offline example](examples/intent-classification/README.en.md) · [Agent instructions](SKILL.md)
 
 License: [MIT](LICENSE).
 

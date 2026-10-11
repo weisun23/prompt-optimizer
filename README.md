@@ -2,7 +2,7 @@
 
 面向 **Claude Code 与 Codex** 的提示词评测与持续优化 Skill，通过用例评测、失败归因和回归验证，提高意图识别、提槽、结构化抽取与工具调用任务的正确率。
 
-[English](README.en.md) · [离线评分示例](examples/intent-classification/README.md) · [安装与首次运行](#快速开始)
+[English](README.en.md) · [Skills.sh 目录](https://skills.sh/weisun23/prompt-optimizer/prompt-optimizer) · [离线评分示例](examples/intent-classification/README.md) · [安装与首次运行](#快速开始)
 
 开源许可证：[MIT](LICENSE)，允许商用、修改和分发，须保留版权与许可声明。
 
