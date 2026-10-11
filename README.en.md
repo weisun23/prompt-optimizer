@@ -1,12 +1,29 @@
 # Prompt Optimizer — Evaluation-driven Prompt Optimization Skill
 
-A **Claude Code and Codex Agent Skill** for prompt evaluation, failure analysis, tool-calling validation, and regression-tested optimization.
+A **Claude Code and Codex Agent Skill** for improving intent classification, slot extraction, structured output, and tool-calling correctness through evaluation, failure analysis, and regression-tested prompt optimization.
 
 [中文](README.md) · [Offline example](examples/intent-classification/README.en.md) · [Agent instructions](SKILL.md)
 
 License: [MIT](LICENSE).
 
 Version: **1.4.11**. The host agent investigates failures and edits prompts; configured models perform only their assigned execution, generation, simulation, or judging roles.
+
+## Case study: NLU case pass rate improved from 87.7% to 100%
+
+In a telephone customer-service NLU project, Claude Code used this Skill's guidance and a project-specific evaluator to optimize intent-classification and slot-extraction prompts. The final paired evaluation on October 9, 2026 used the same model and the same 155 cases for both variants:
+
+| Task | Before | After |
+|---|---:|---:|
+| Intent classification, 85 cases | 74/85, 87.1% | **85/85, 100%** |
+| Slot extraction, 70 cases | 62/70, 88.6% | **70/70, 100%** |
+| Combined, 155 cases | 136/155, 87.7% | **155/155, 100%** |
+
+- **Model settings:** `deepseek-v4-1-flash-260910`, `temperature=0`, `top_p=1`, thinking disabled.
+- **Repeated evaluation:** the optimized intent classifier passed all 85 cases in six repeated runs, totaling 510 case executions. This record does not establish six repeated full runs of all 155 cases.
+- **Scoring contract:** intent sets and specified dialogue acts were compared with expected values. Extraction used expected fields and task-specific rules for ambiguity and corrections, with formatting or text tolerance for some fields. This is case-level pass rate, not strict equality of every field in the full JSON output.
+- **Evidence boundary:** these aggregates were checked against the original model-evaluation and stability logs. The cases were hand-authored; there was no independent holdout set or real-call corpus validation. A 100% pass rate on these cases does not establish 100% production accuracy or guarantee the same gain on other tasks.
+
+The original business prompts, cases, and individual model outputs are not published in this repository, so this is a historical project result summary. The public offline example below demonstrates a reproducible scoring workflow.
 
 ## What it helps you do
 
